@@ -1,0 +1,27 @@
+services:
+  - type: web
+    name: immobilienhelp-schadenmanagement
+    runtime: python
+    plan: starter
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn --bind 0.0.0.0:$PORT app:app
+    healthCheckPath: /health
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.6
+      - key: DATA_DIR
+        value: /var/data
+      - key: UPLOAD_DIR
+        value: /var/data/uploads
+      - key: DATABASE_PATH
+        value: /var/data/immobilienhelp.db
+      - key: COOKIE_SECURE
+        value: "1"
+      - key: COMPANY_NAME
+        value: ImmobilienHelp
+      - key: BRAND_TAGLINE
+        value: Work can be so easy
+    disk:
+      name: data
+      mountPath: /var/data
+      sizeGB: 1
